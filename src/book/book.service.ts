@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { Book } from './interfaces/book.interface';
-import { v4 as uuidv4 } from 'uuid';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { Connection, Model } from 'mongoose';
+import { BookDocument } from './schemas/book.schema';
 @Injectable()
 export class BookService {
-  private readonly book: Book[] = [];
-  create(book: Omit<Book, 'id'>) {
-    const id = uuidv4();
-    const newBook: Book = {
-      ...book,
-      id: String(id),
-    };
-    this.book.push(newBook);
+  constructor(
+    @InjectModel('Book') private BookModel: Model<BookDocument>,
+    @InjectConnection() private connection: Connection,
+  ) {}
+
+  create(book: Omit<Book, 'id'>): Promise<BookDocument> {
+    const newBook = new this.BookModel(book);
+    return newBook.save();
   }
-  findAll(): Book[] {
-    return this.book;
-  }
+  // findAll(): Book[] {
+  //   return this.book;
+  // }
 }
