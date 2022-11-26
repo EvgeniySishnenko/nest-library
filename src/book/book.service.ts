@@ -1,20 +1,49 @@
+import { Book, BookDocument } from './schemas/book.schema';
 import { Injectable } from '@nestjs/common';
-import { Book } from './interfaces/book.interface';
-import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Connection, Model } from 'mongoose';
-import { BookDocument } from './schemas/book.schema';
+import {
+  Model,
+  Connection,
+  QueryWithHelpers,
+  HydratedDocument,
+} from 'mongoose';
+import { InjectModel, InjectConnection } from '@nestjs/mongoose';
+
 @Injectable()
 export class BookService {
   constructor(
-    @InjectModel('Book') private BookModel: Model<BookDocument>,
+    @InjectModel(Book.name) private BookModel: Model<BookDocument>,
     @InjectConnection() private connection: Connection,
   ) {}
 
-  create(book: Omit<Book, 'id'>): Promise<BookDocument> {
+  public create(book: Omit<Book, 'id'>): Promise<BookDocument> {
     const newBook = new this.BookModel(book);
     return newBook.save();
   }
-  // findAll(): Book[] {
-  //   return this.book;
-  // }
+
+  public getAll(): Promise<BookDocument[]> {
+    return this.BookModel.find().exec();
+  }
+
+  public update(
+    id: string,
+    data: Omit<Book, 'id'>,
+  ): QueryWithHelpers<
+    HydratedDocument<BookDocument, {}, {}> | null,
+    HydratedDocument<BookDocument, {}, {}>,
+    {},
+    BookDocument
+  > {
+    return this.BookModel.findOneAndUpdate({ _id: id }, data);
+  }
+
+  public delete(
+    id: string,
+  ): QueryWithHelpers<
+    HydratedDocument<BookDocument, {}, {}> | null,
+    HydratedDocument<BookDocument, {}, {}>,
+    {},
+    BookDocument
+  > {
+    return this.BookModel.findOneAndRemove({ _id: id });
+  }
 }
