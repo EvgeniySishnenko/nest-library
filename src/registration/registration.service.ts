@@ -1,4 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class RegistrationService {}
+export class RegistrationService {
+  async registration(registrationDTO) {
+    return registrationDTO;
+  }
+}
