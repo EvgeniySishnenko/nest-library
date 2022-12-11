@@ -6,8 +6,10 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { HydratedDocument, QueryWithHelpers } from 'mongoose';
+import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 import { BookService } from './book.service';
 import { CreateBookDto } from './interfaces/create-book-dto.interface';
 import { BookDocument } from './schemas/book.schema';
@@ -15,11 +17,9 @@ import { BookDocument } from './schemas/book.schema';
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
-
+  @UseGuards(JwtAuthGuard)
   @Post()
   public create(@Body() createBookDto: CreateBookDto): Promise<BookDocument> {
-    console.log(createBookDto);
-
     return this.bookService.create(createBookDto);
   }
 
