@@ -1,3 +1,3 @@
-import { Book } from './book.interface';
+import { IBook } from './book.interface';
 
-export interface CreateBookDto extends Omit<Book, 'id'> {}
+export interface CreateBookDto extends Omit<IBook, 'id'> {}

@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { HydratedDocument, QueryWithHelpers } from 'mongoose';
-import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
+// import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 import { BookService } from './book.service';
 import { CreateBookDto } from './interfaces/create-book-dto.interface';
 import { BookDocument } from './schemas/book.schema';
@@ -17,7 +17,7 @@ import { BookDocument } from './schemas/book.schema';
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
   public create(@Body() createBookDto: CreateBookDto): Promise<BookDocument> {
     return this.bookService.create(createBookDto);
