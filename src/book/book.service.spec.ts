@@ -15,6 +15,14 @@ const mockBook = {
 describe('BookService', () => {
   let controller: BookController;
   const mockBookService = {
+    getAll: jest.fn(() => {
+      return [
+        {
+          id: '123456789',
+          ...mockBook,
+        },
+      ];
+    }),
     create: jest.fn((dto) => {
       return {
         id: '123456789',
@@ -25,6 +33,12 @@ describe('BookService', () => {
       return {
         id,
         ...dto,
+      };
+    }),
+    delete: jest.fn((id) => {
+      return {
+        id,
+        ...mockBook,
       };
     }),
   };
@@ -52,6 +66,20 @@ describe('BookService', () => {
     expect(controller.update({ id: '123456789' }, mockUpdate)).toEqual({
       id: '123456789',
       ...mockUpdate,
+    });
+  });
+  it('getAll book', () => {
+    expect(controller.getAll()).toEqual([
+      {
+        id: '123456789',
+        ...mockBook,
+      },
+    ]);
+  });
+  it('delete book', () => {
+    expect(controller.delete({ id: '123456789' })).toEqual({
+      id: '123456789',
+      ...mockBook,
     });
   });
 });
