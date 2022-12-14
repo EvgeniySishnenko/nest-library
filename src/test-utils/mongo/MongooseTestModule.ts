@@ -6,18 +6,16 @@ let mongod: MongoMemoryServer;
 export const rootMongooseTestModule = (options: MongooseModuleOptions = {}) =>
   MongooseModule.forRootAsync({
     useFactory: async () => {
-      mongod = new MongoMemoryServer();
-      await mongod.start();
+      mongod = await MongoMemoryServer.create();
       const mongoUri = mongod.getUri();
-
-      await mongoose.connect(mongoUri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        autoIndex: true,
-      } as ConnectOptions);
+      return {
+        uri: mongoUri,
+        ...options,
+      };
     },
   });
 
 export const closeInMongodConnection = async () => {
+  await mongoose.disconnect();
   if (mongod) await mongod.stop();
 };
