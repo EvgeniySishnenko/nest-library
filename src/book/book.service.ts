@@ -7,11 +7,13 @@ import {
   HydratedDocument,
 } from 'mongoose';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
+import { Comm, CommDocument } from './schemas/comm.schema';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectModel(Book.name) private BookModel: Model<BookDocument>,
+    @InjectModel(Comm.name) private CommModel: Model<CommDocument>,
     @InjectConnection() private connection: Connection,
   ) {}
 
