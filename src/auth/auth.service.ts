@@ -1,9 +1,9 @@
 import { HttpStatus, Injectable, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserDocument } from 'src/users/schemas/user.schema';
-import { UsersService } from 'src/users/users.service';
+import { UserDocument } from '../users/schemas/user.schema';
+import { UsersService } from '../users/users.service';
 import { SigninDTO } from './dto/signin-dto';
-import { CreateUserDto } from 'src/users/interfaces/create-user-dto.interface';
+import { CreateUserDto } from '../users/interfaces/create-user-dto.interface';
 
 @Injectable()
 export class AuthService {
