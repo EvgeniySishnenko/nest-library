@@ -8,7 +8,6 @@ import { AppService } from './app.service';
 import { BookModule } from './book/book.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { DatabaseModule } from './database/database.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -16,7 +15,6 @@ import { DatabaseModule } from './database/database.module';
     BookModule,
     AuthModule,
     UsersModule,
-    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

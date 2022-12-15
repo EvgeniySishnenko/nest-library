@@ -38,7 +38,7 @@ describe('Book', () => {
       .post('/book')
       .expect(200)
       .expect(mockBookService.create(f));
-  });
+  }, 10000);
   it('/PUT book', (f) => {
     return request(app.getHttpServer())
       .put('/book')
